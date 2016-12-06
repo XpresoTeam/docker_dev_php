@@ -18,7 +18,7 @@ How to use it?
 
         git clone https://github.com/XpresoTeam/docker_dev_php
         cd docker_dev_php
-	sudo docker build ./ --tag xpreso_dev:0.1 
+        sudo docker build ./ --tag xpreso_dev:0.1 
 
 Buildtime takes aprox. 2m30s.
 
@@ -29,7 +29,7 @@ to the outside. You will be able to access your server using the URL:
 http://{APP_HOST_NAME}:{APP_HOST_PORT}
 
         sudo docker run \
-            --name projectname
+            --name projectname\
             -v ~/Projects/projectname:/var/www/html \
             -e APP_HOST_NAME='dockertest' \
             -e APP_HOST_PORT='8000' \
