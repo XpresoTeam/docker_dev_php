@@ -22,7 +22,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN echo "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d
 RUN apt-get update -y --force-yes
 RUN apt-get upgrade -y --force-yes
-RUN apt-get install -y --force-yes software-properties-common python-software-properties supervisor build-essential curl
+RUN apt-get install -y --force-yes software-properties-common python-software-properties supervisor build-essential git curl
 
 # NOW, MY STUFF
 
