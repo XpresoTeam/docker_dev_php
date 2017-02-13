@@ -16,29 +16,31 @@ Anyone who needs to develop on PHP 7 using Nginx
 How to use it?
 -----------------
 
+Edit the Dockerfile to remove XDebug if you're going to setup a production environment.
+
         git clone https://github.com/XpresoTeam/docker_dev_php
         cd docker_dev_php
-        sudo docker build ./ --tag xpreso_dev:0.1 
+        docker build ./ --tag xpreso_dev:0.1 
 
-Buildtime takes aprox. 2m30s.
+Buildtime takes aprox. 5m30s.
 
 Now, to run the container the first time, you need to inform the local path for the Nginx folder
-(/var/www/html), thhe APP_HOST_NAME, and APP_HOST_PORT you will use. Also, if you want to have
+(/var/www/html), the APP_HOST_NAME, and APP_HOST_PORT you will use. Also, if you want to have
 completely control, specify the IP for your docker container inside the allowed IP range of your 
 docker network. Map the same port inside to the outside. You will be able to access your server 
 using the URL:
 
 http://{APP_HOST_NAME}:{APP_HOST_PORT}
 
-        sudo docker run \
-            --name projectname\
-            -v ~/Projects/projectname:/var/www/html \
-            -e APP_HOST_NAME='dockertest' \
-            -e APP_HOST_PORT='8000' \
-            -p 8000:8000 \
-            -e USERID=`id -u $USER` \
-            -e USERNAME=$USER \
-            -d xpreso_dev:0.1
+        /bin/bash -c "docker run \
+                --name platform \
+                -v ~/Projects/platform:/var/www/html \
+                -e APP_HOST_NAME='xpreso.com' \
+                -e APP_HOST_PORT='8000' \
+                -p 8000:8000 \
+                -e USERID=`id -u $USER` \
+                -e USERNAME=$USER \
+                -d xpreso_dev:0.1"
 
 REMEMBER: You need to add the hostnames to your /etc/hosts file on your operating system
 

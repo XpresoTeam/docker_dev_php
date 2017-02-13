@@ -1,0 +1,78 @@
+Xpreso Developer Environment
+============================
+
+What is included?
+-----------------
+
+* Ubuntu 14.04
+* Nginx
+* PHP-FPM 7.0
+* PostgreSQL 9.6
+* PostGIS 2.3
+* GEOS 3.5.0
+* PHP-GEO C-API 1.9
+
+Who can use it?
+-----------------
+
+Anyone who needs to develop on PHP 7 using Nginx, PostgreSQL, PostGIS and GEOS/PHP-GEO. 
+
+Add the GeoPHP (https://geophp.net/ or composer require "phayes/geophp:1.2") library to your
+PHP Project to better use.
+
+How to use it?
+-----------------
+
+First, edit the Dockerfile and start.sh to match the desired user and password for a production
+environment. For a development environment you can leave it as xpreso:xpreso.
+
+Also, edit the Dockerfile to remove XDebug if you're going to setup a production environment.
+
+        git clone https://github.com/XpresoTeam/docker_dev_php
+        cd docker_dev_php/nginx-php7.0-postgis
+        docker build ./ --tag xpreso_phpgeo_dev:0.1 
+
+Buildtime takes aprox. 5m30s.
+
+Now, to run the container the first time, you need to inform the local path for the Nginx folder
+(/var/www/html), the APP_HOST_NAME, and APP_HOST_PORT you will use. Also, if you want to have
+completely control, specify the IP for your docker container inside the allowed IP range of your 
+docker network. Map the same port inside to the outside. You will be able to access your server 
+using the URL:
+
+http://{APP_HOST_NAME}:{APP_HOST_PORT}
+
+        /bin/bash -c "docker run \
+                --name xrs-core-platform \
+                -v ~/Projects/xrs-core-platform:/var/www/html \
+                -e APP_HOST_NAME='xpreso.com' \
+                -e APP_HOST_PORT='8001' \
+                -p 8001:8001 \
+                -p 54321:5432 \
+                -e USERID=`id -u $USER` \
+                -e USERNAME=$USER \
+                -d xpreso_phpgeo_dev:0.1"
+
+Check https://hub.docker.com/_/postgres/ for more PostgreSQL options
+
+
+REMEMBER: You need to add the hostnames to your /etc/hosts file on your operating system
+
+Connecting to a database
+-----------------
+
+Your database connection must be set to use the PostgreSQL driver of the framework in use and point
+to 
+
+
+Disclaimer
+-----------------
+
+DON'T RUN THIS AS ROOT FOR DEVELOPMENT ENVIRONMENT! RUN WITH SUDO! IT USES THE CURRENT LOGGED
+USER FOR FIX HOST DISK ACCESS PERMISSIONS 
+
+USE BASH AS YOUR SHELL TO RUN THE COMMAND!
+
+SERVER PORTS - you need to choose a free unused port for each hostname (meaning, you need one for 
+NGinx and one for PostgreSQL).
+
